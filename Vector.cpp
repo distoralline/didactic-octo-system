@@ -1,6 +1,8 @@
 // A class interface for Euclidean 3-Space vector objects. Written for more
 //  general case currently. Test against a specially written Vector3D class if
 //  use cases for other dimensions is stagnent.
+
+// Page 845 for parallel programming
 #include <vector>
 
 #include <iostream>
@@ -15,8 +17,7 @@ class Vector {
     //  awkward member extension outside of class if possible?
     //  or must a separate class be written with much code repetition.
     //  Perhaps an extension with a strange inheritence/encapsulation?
-        Vector<T, n>() :
-          components(n, 0), x{ components[0] }, y{ components[1] }, z{components[2]} {
+        Vector<T, n>() : components(n, 0) {
             
         }
 
@@ -24,22 +25,45 @@ class Vector {
             return components[i];
         }
 
-    private:
+    protected:
         std::vector<T> components;
+};
 
+template<typename T>
+class Vector2D : public Vector<T, 2>{
     public:
+        Vector2D<T>() :
+          x{ components[0] }, y{ components[1] } {}
+        T& x;
+        T& y;
+};
+
+template<typename T>
+class Vector3D : public Vector<T, 3>{
+    public:
+        Vector3D<T>() :
+          x{ components[0] }, y{ components[1] }, z{ components[2] } {}
         T& x;
         T& y;
         T& z;
-        
 };
 
-using Vector3D = Vector<double, 3>;
+template<typename T>
+class Vector4D : public Vector<T, 4>{
+    public:
+        Vector4D<T>() :
+          x{ components[0] }, y{ components[1] },
+            z{ components[2] }, w{ components[3] } {}
+        T& x;
+        T& y;
+        T& z;
+        T& w;
+};
 
 }; // End of namespace dey::math
 
 int main(int argc, char** argv) {
-    dey::math::Vector3D testVec{};
+    dey::math::Vector3D<double> testVec{};
 
     testVec.y = 1;
     testVec.z = 2;
