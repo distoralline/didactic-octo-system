@@ -21,6 +21,8 @@ class Vector {
             
         }
 
+        Vector<T, n>(const Vector<T, n> &src) = default;
+
         T& operator[](int i) {
             return components[i];
         }
@@ -34,6 +36,10 @@ class Vector2D : public Vector<T, 2>{
     public:
         Vector2D<T>() :
           x{ components[0] }, y{ components[1] } {}
+
+        Vector2D<T>(const Vector2D<T> &src) :
+          Vector<T, 2>(src), x{ components[0] }, y{ components[1] } {}
+
         T& x;
         T& y;
 };
@@ -43,6 +49,12 @@ class Vector3D : public Vector<T, 3>{
     public:
         Vector3D<T>() :
           x{ components[0] }, y{ components[1] }, z{ components[2] } {}
+
+        Vector3D<T>(const Vector3D<T> &src) :
+          Vector<T, 3>(src), x{ components[0] },
+          y{ components[1] }, z{ components[2] } {}
+
+
         T& x;
         T& y;
         T& z;
@@ -54,6 +66,11 @@ class Vector4D : public Vector<T, 4>{
         Vector4D<T>() :
           x{ components[0] }, y{ components[1] },
             z{ components[2] }, w{ components[3] } {}
+
+        Vector4D<T>(const Vector4D<T> &src) :
+          Vector<T, 4>(src), x{ components[0] },
+          y{ components[1] }, z{ components[2] }, w{ components[3] } {}
+        
         T& x;
         T& y;
         T& z;
@@ -64,12 +81,33 @@ class Vector4D : public Vector<T, 4>{
 
 int main(int argc, char** argv) {
     dey::math::Vector3D<double> testVec{};
+    testVec.x = 77;
+    dey::math::Vector3D<double> testCopy(testVec);
+
+    /*
+    dey::math::Vector<double, 3> testVec{};
+    testVec[0] = 77;
+    dey::math::Vector<double, 3> testCopy(testVec);
+    */
+
+    dey::math::Vector3D<float> testerVec{};
 
     testVec.y = 1;
     testVec.z = 2;
 
+    //testVec[1] = 1;
+    //testVec[2] = 2;
+
+    testerVec.y = 1;
+    testerVec.z = 2;
+
+    testCopy.z = 7;
+
+    //testCopy[2] = 7;
+
     for (int i = 0; i < 3; i++) {
         std::cout << testVec[i] << " ";
+        std::cout << testCopy[i] << " ";
     } std::cout << std::endl;
 
     return 0;
